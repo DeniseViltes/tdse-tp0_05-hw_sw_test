@@ -78,6 +78,19 @@ void task_b_init(void *parameters)
 	LOGGER_LOG("   %s = %d\r\n", GET_NAME(g_task_b_cnt), (int)g_task_b_cnt);
 }
 
+uint32_t millis(void) {
+    return HAL_GetTick();  // Obtiene el tiempo actual en milisegundos desde el arranque
+}
+
+void delay_ms_non_blocking(uint32_t delay) {
+    uint32_t start_time = millis();  // Marca el tiempo de inicio
+    // Verifica continuamente si ha pasado el tiempo deseado
+    while ((millis() - start_time) < delay) {
+        // Aquí se puede ejecutar otra lógica mientras se espera
+    }
+}
+
+
 void task_b_update(void *parameters)
 {
 	/* Memory Layout of C Programs (https://www.geeksforgeeks.org/) */
@@ -110,7 +123,9 @@ void task_b_update(void *parameters)
 	#if (TEST_X == TEST_2)
 
 	/* Here Chatbot Artificial Intelligence generated code */
-
+	/*HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Cambia el estado del LED
+	delay_ms_non_blocking(1000);  // Retardo no bloqueante de 1 segundo
+	*/
 	#endif
 
 	/* Update Task B Counter */
@@ -157,39 +172,8 @@ void task_b_update(void *parameters)
 	#if (TEST_X == TEST_2)
 
 	/* Here Chatbot Artificial Intelligence generated code */
-#include "stm32f1xx.h"
-
-volatile uint32_t msTicks = 0;
-
-void SysTick_Handler(void) {
-    msTicks++;
-}
-
-void delay_ms_non_blocking(uint32_t delay) {
-    uint32_t currentTicks = msTicks;
-    while ((msTicks - currentTicks) < delay) {
-        // Aquí el código es no bloqueante, podrías ejecutar otras tareas
-    }
-}
-
-int main(void) {
-    HAL_Init();
-    SysTick_Config(SystemCoreClock / 1000);  // Configura SysTick para que interrumpa cada 1ms
-
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_13;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-    while (1) {
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        delay_ms_non_blocking(1000);  // Espera no bloqueante de 1 segundo
-    }
-}
-
-
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);  // Cambia el estado del LED
+		delay_ms_non_blocking(1000);  // Retardo no bloqueante de 1 segundo
 	#endif
 }
 

@@ -78,6 +78,12 @@ void task_a_init(void *parameters)
 	LOGGER_LOG("   %s = %d\r\n", GET_NAME(g_task_a_cnt), (int)g_task_a_cnt);
 }
 
+void delay_ms(uint32_t ms) {
+    for (uint32_t i = 0; i < ms * 8000; i++) {
+        __NOP();  // NOP = No Operation, solo desperdicia ciclos de CPU
+    }
+}
+
 void task_a_update(void *parameters)
 {
 	/* Memory Layout of C Programs (https://www.geeksforgeeks.org/) */
@@ -104,6 +110,9 @@ void task_a_update(void *parameters)
 
 	/* Here Chatbot Artificial Intelligence generated code */
 
+     /*  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+       delay_ms(1000);  // Espera bloqueante de 1 segundo
+*/
 	#endif
 
 	/* Update Task A Counter */
@@ -140,31 +149,8 @@ void task_a_update(void *parameters)
 	#if (TEST_X == TEST_2)
 
 	/* Here Chatbot Artificial Intelligence generated code */
-#include "stm32f1xx.h"
-
-void delay_ms(uint32_t ms) {
-    for (uint32_t i = 0; i < ms * 8000; i++) {
-        __NOP();  // NOP = No Operation, solo desperdicia ciclos de CPU
-    }
-}
-
-int main(void) {
-    HAL_Init();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_13;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-    while (1) {
-        HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-        delay_ms(1000);  // Espera bloqueante de 1 segundo
-    }
-}
-
-
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	       delay_ms(1000);  // Espera bloqueante de 1 segundo
 	#endif
 }
 

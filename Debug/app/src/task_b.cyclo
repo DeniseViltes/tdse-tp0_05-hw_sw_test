@@ -1,2 +1,4 @@
 ../app/src/task_b.c:70:6:task_b_init	1
-../app/src/task_b.c:81:6:task_b_update	2
+../app/src/task_b.c:81:10:millis	1
+../app/src/task_b.c:85:6:delay_ms_non_blocking	2
+../app/src/task_b.c:94:6:task_b_update	1
